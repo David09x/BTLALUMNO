@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     // --------------------------------------------------------------
     // --------------------------------------------------------------
+    //Busca todos los dispositivos y los muestra para ser seleccionados
     private void buscarTodosLosDispositivosBTLE() {
         Log.d(ETIQUETA_LOG, " buscarTodosLosDispositivosBTL(): empieza ");
 
@@ -56,13 +57,15 @@ public class MainActivity extends AppCompatActivity {
                 mostrarInformacionDispositivoBTLE( resultado );
             }
 
+            //ensenya una lista de dispotivos.
             @Override
             public void onBatchScanResults(List<ScanResult> results) {
                 super.onBatchScanResults(results);
                 Log.d(ETIQUETA_LOG, " buscarTodosLosDispositivosBTL(): onBatchScanResults() ");
 
             }
-
+            //Si no encuentra un dispotivio muestra un error al usuario
+            //indicando que no lo ha encontrado
             @Override
             public void onScanFailed(int errorCode) {
                 super.onScanFailed(errorCode);
@@ -73,18 +76,20 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(ETIQUETA_LOG, " buscarTodosLosDispositivosBTL(): empezamos a escanear ");
 
-        this.elEscanner.startScan( this.callbackDelEscaneo);
+        this.elEscanner.startScan( this.callbackDelEscaneo);//empieza a buscar dispotivios
 
     } // ()
 
     // --------------------------------------------------------------
     // --------------------------------------------------------------
+    //Busca toda la informacion de los dispositivos cerca
+    //va haciendo reconocimientos hasta que encuentra el dispotivo
     private void mostrarInformacionDispositivoBTLE( ScanResult resultado ) {
 
-        BluetoothDevice bluetoothDevice = resultado.getDevice();
+        BluetoothDevice bluetoothDevice = resultado.getDevice();//el dispotivo cuando lo encuentra
         byte[] bytes = resultado.getScanRecord().getBytes();
         int rssi = resultado.getRssi();
-
+        //empieza a buscar dispositivos y se lo enseña al usuario los dispotivos encontrados
         Log.d(ETIQUETA_LOG, " ****************************************************");
         Log.d(ETIQUETA_LOG, " ****** DISPOSITIVO DETECTADO BTLE ****************** ");
         Log.d(ETIQUETA_LOG, " ****************************************************");
@@ -97,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
             //Log.d(ETIQUETA_LOG, " uuid = " + puuids[0].getUuid());
            // Log.d(ETIQUETA_LOG, " uuid = " + puuids[0].toString());
         }*/
-
+        //que dispotivos a encontrado
         Log.d(ETIQUETA_LOG, " dirección = " + bluetoothDevice.getAddress());
         Log.d(ETIQUETA_LOG, " rssi = " + rssi );
 
@@ -133,9 +138,10 @@ public class MainActivity extends AppCompatActivity {
         Log.d(ETIQUETA_LOG, "  buscarEsteDispositivoBTLE(): instalamos scan callback ");
 
 
-        // super.onScanResult(ScanSettings.SCAN_MODE_LOW_LATENCY, result); para ahorro de energía
+            // super.onScanResult(ScanSettings.SCAN_MODE_LOW_LATENCY, result)
 
         this.callbackDelEscaneo = new ScanCallback() {
+          //busca el dispositivo
             @Override
             public void onScanResult( int callbackType, ScanResult resultado ) {
                 super.onScanResult(callbackType, resultado);
@@ -144,13 +150,14 @@ public class MainActivity extends AppCompatActivity {
                 mostrarInformacionDispositivoBTLE( resultado );
             }
 
+            //sale una lista de dispositivos
             @Override
             public void onBatchScanResults(List<ScanResult> results) {
                 super.onBatchScanResults(results);
                 Log.d(ETIQUETA_LOG, "  buscarEsteDispositivoBTLE(): onBatchScanResults() ");
 
             }
-
+            //muestra un error al buscar un dispositivo
             @Override
             public void onScanFailed(int errorCode) {
                 super.onScanFailed(errorCode);
@@ -170,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
     // --------------------------------------------------------------
     // --------------------------------------------------------------
+    //Cuando el usuario detiene la busqueda
     private void detenerBusquedaDispositivosBTLE() {
 
         if ( this.callbackDelEscaneo == null ) {
@@ -183,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
 
     // --------------------------------------------------------------
     // --------------------------------------------------------------
+    //activar la busqueda de dispositivos mediante un boton
     public void botonBuscarDispositivosBTLEPulsado( View v ) {
         Log.d(ETIQUETA_LOG, " boton buscar dispositivos BTLE Pulsado" );
         this.buscarTodosLosDispositivosBTLE();
@@ -190,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
 
     // --------------------------------------------------------------
     // --------------------------------------------------------------
+    //boton creado para mostrar el dispositivo que teniamos previamente
     public void botonBuscarNuestroDispositivoBTLEPulsado( View v ) {
         Log.d(ETIQUETA_LOG, " boton nuestro dispositivo BTLE Pulsado" );
         //this.buscarEsteDispositivoBTLE( Utilidades.stringToUUID( "EPSG-GTI-PROY-3A" ) );
@@ -201,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
 
     // --------------------------------------------------------------
     // --------------------------------------------------------------
+    //Detiene la busqueda de dispositivo
     public void botonDetenerBusquedaDispositivosBTLEPulsado( View v ) {
         Log.d(ETIQUETA_LOG, " boton detener busqueda dispositivos BTLE Pulsado" );
         this.detenerBusquedaDispositivosBTLE();
@@ -208,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
 
     // --------------------------------------------------------------
     // --------------------------------------------------------------
+    //activa el bluetooth que se utiliza para buscar dispositivos
     private void inicializarBlueTooth() {
         Log.d(ETIQUETA_LOG, " inicializarBlueTooth(): obtenemos adaptador BT ");
 
@@ -252,6 +264,7 @@ public class MainActivity extends AppCompatActivity {
 
     // --------------------------------------------------------------
     // --------------------------------------------------------------
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -267,6 +280,7 @@ public class MainActivity extends AppCompatActivity {
 
     // --------------------------------------------------------------
     // --------------------------------------------------------------
+    //pide permiso al usuario para poder utilizarlo
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
         super.onRequestPermissionsResult( requestCode, permissions, grantResults);
@@ -296,5 +310,3 @@ public class MainActivity extends AppCompatActivity {
 // --------------------------------------------------------------
 // --------------------------------------------------------------
 // --------------------------------------------------------------
-
-
