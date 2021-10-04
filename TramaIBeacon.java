@@ -6,6 +6,9 @@ import java.util.Arrays;
 // -----------------------------------------------------------------------------------
 // @author: Jordi Bataller i Mascarell
 // -----------------------------------------------------------------------------------
+//clase donde se guarda los bytes con lo que hacen funcionar el Beacon.
+//en la cual esta formado por getters que sirven para recibir toda la mostrarInformacion
+//a la hora de buscar los dispositivos.
 public class TramaIBeacon {
     private byte[] prefijo = null; // 9 bytes
     private byte[] uuid = null; // 16 bytes
@@ -89,6 +92,7 @@ public class TramaIBeacon {
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    //conjunto de arrays que contiene toda la trama de los bytes
     public TramaIBeacon(byte[] bytes ) {
         this.losBytes = bytes;
 
@@ -110,5 +114,3 @@ public class TramaIBeacon {
 // -----------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------
-
-
